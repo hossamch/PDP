@@ -12,7 +12,7 @@ df = LOAD '/user/maria_dev/orders.csv' USING PigStorage(',') AS
       ordered = ORDER df BY location ASC;
       filtered = FILTER ordered BY location=='Holland';
       grouped = GROUP filtered BY (location, start);
-      holland_total = FOREACH grouped GENERATE
+      total = FOREACH grouped GENERATE
       FLATTEN(group) AS (location, start),
       COUNT(filtered.location);
-      DUMP holland_total;
+      DUMP total;
