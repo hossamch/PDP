@@ -1,0 +1,16 @@
+df = LOAD '/user/maria_dev/orders.csv' USING PigStorage(',') AS
+	(orderID:chararray, 
+    x1:chararray,
+    x2:chararray,
+    start:chararray,
+    target:chararray,
+    x3:chararray,
+    x4:chararray,
+    x5:chararray,
+    x6:chararray);
+    
+filtered = FILTER df BY target == '"Holland"';
+grouped = Group filtered BY (start, target);
+total = FOREACH grouped GENERATE group, COUNT(filtered);
+ordered_orders = ORDER total BY $0 ASC;
+DUMP ordered_orders;
